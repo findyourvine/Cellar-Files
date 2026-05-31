@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Agent Passport — The Cellar Files</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <rect width="100" height="100" fill="#5A1A26"/>
+    <rect x="30" y="22" width="40" height="54" rx="4" fill="none" stroke="#D8BC73" stroke-width="2.5"/>
+    <circle cx="50" cy="42" r="9" fill="none" stroke="#D8BC73" stroke-width="2"/>
+    <text x="50" y="88" text-anchor="middle" font-family="monospace" font-size="8" letter-spacing="2" fill="#D8BC73">PASSPORT</text>
+  </svg>
+</template>
+<style>
+:root{
+  --burgundy:#6E2230;--burgundy-deep:#5A1A26;--cabernet:#8B2638;
+  --paper:#F3E8CF;--paper-2:#ECDEBE;--cream:#F6EEDA;
+  --oak:#3A2A1C;--ink:#2B2117;--ink-soft:#5A4A38;
+  --gold:#B8902F;--gold-deep:#977322;--gold-soft:#D8BC73;--green:#3f6b3f;--red:#9c2b32;
+  --rule:rgba(58,42,28,0.28);--rule-soft:rgba(58,42,28,0.14);
+  --font-display:'Oswald',sans-serif;--font-body:'Spectral',Georgia,serif;--font-mono:'Space Mono',monospace;
+}
+*{box-sizing:border-box;}html,body{margin:0;padding:0;height:100%;}
+body{font-family:var(--font-body);color:var(--ink);background:radial-gradient(120% 90% at 50% -10%,#4a2a26,#3a201d 40%,#23120f 100%);-webkit-font-smoothing:antialiased;overflow:hidden;}
+.frame-wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;}
+.phone{position:relative;width:min(440px,96vw);height:min(940px,94vh);overflow:hidden;border-radius:34px;
+  background:linear-gradient(180deg,#2a1614,#1f1010);box-shadow:0 50px 110px -34px rgba(15,7,5,.85),0 0 0 9px #221513,0 0 0 11px rgba(216,188,115,.22);}
+.statusbar{position:absolute;top:0;left:0;right:0;height:30px;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--gold-soft);}
+.statusbar .batt{width:18px;height:9px;border:1px solid var(--gold-soft);border-radius:2px;opacity:.7;position:relative;}
+.statusbar .batt::after{content:"";position:absolute;left:1px;top:1px;bottom:1px;width:11px;background:var(--gold-soft);border-radius:1px;}
+.screen{position:absolute;inset:30px 0 0;overflow-y:auto;scrollbar-width:none;z-index:5;}
+.screen::-webkit-scrollbar{display:none;}
+
+/* passport cover header */
+.pp-head{position:relative;padding:18px 22px 20px;background:linear-gradient(160deg,#3a121a,#5a1a26);color:var(--cream);overflow:hidden;}
+.pp-head::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(216,188,115,.06) 0 16px,transparent 16px 32px);}
+.pp-back{position:relative;font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-soft);text-decoration:none;display:inline-flex;gap:6px;align-items:center;}
+.pp-title-row{display:flex;align-items:center;gap:14px;margin-top:14px;position:relative;}
+.pp-emboss{width:52px;height:52px;flex:0 0 auto;border-radius:8px;border:2px solid var(--gold-soft);display:flex;align-items:center;justify-content:center;background:rgba(216,188,115,.12);}
+.pp-emboss svg{width:30px;height:30px;}
+.pp-title{font-family:var(--font-display);font-weight:600;text-transform:uppercase;font-size:26px;line-height:.9;color:var(--cream);letter-spacing:.02em;}
+.pp-title small{display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:.22em;color:var(--gold-soft);margin-top:5px;}
+
+/* summary */
+.pp-summary{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;margin-top:16px;position:relative;
+  background:rgba(0,0,0,.18);border:1px solid rgba(216,188,115,.25);border-radius:12px;padding:13px 15px;}
+.pp-ring{width:62px;height:62px;flex:0 0 auto;}
+.pp-sum-meta .ps-k{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-soft);}
+.pp-sum-meta .ps-v{font-size:13px;color:rgba(246,238,218,.9);line-height:1.5;}
+.pp-sum-meta .ps-v b{color:var(--cream);}
+
+.body{background:linear-gradient(180deg,var(--cream),var(--paper) 10%);padding:6px 16px 30px;}
+.cat{margin-top:18px;}
+.cat-h{display:flex;align-items:center;gap:10px;margin:0 2px 12px;}
+.cat-h .ct{font-family:var(--font-display);font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:14px;color:var(--ink);}
+.cat-h .cbar{flex:1;height:6px;border-radius:4px;background:rgba(58,42,28,.14);overflow:hidden;}
+.cat-h .cbar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-soft));}
+.cat-h .cnum{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;color:var(--ink-soft);}
+
+.stamps{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.stampcard{position:relative;border-radius:13px;padding:14px;overflow:hidden;border:1px solid var(--rule);min-height:172px;
+  background:rgba(255,255,255,.5);}
+.stampcard.locked{background:repeating-linear-gradient(45deg,rgba(58,42,28,.045) 0 9px,transparent 9px 18px),rgba(236,222,190,.4);border-style:dashed;}
+.sc-stamp{width:62px;height:62px;margin-bottom:9px;}
+.sc-name{font-family:var(--font-display);font-weight:600;text-transform:uppercase;font-size:15px;color:var(--ink);line-height:1;}
+.sc-country{font-family:var(--font-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);margin-top:3px;display:flex;align-items:center;gap:5px;}
+.sc-flag{width:18px;height:12px;object-fit:cover;border:1px solid var(--oak);border-radius:2px;}
+.sc-fact{font-size:11.5px;line-height:1.4;color:var(--ink-soft);margin-top:8px;}
+.sc-meta{display:flex;gap:12px;margin-top:9px;}
+.sc-meta div{line-height:1.05;}
+.sc-meta .mk{font-family:var(--font-mono);font-size:7px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);}
+.sc-meta .mv{font-family:var(--font-display);font-weight:600;font-size:14px;color:var(--burgundy);}
+.sc-first{font-family:var(--font-body);font-style:italic;font-size:10.5px;color:var(--ink-soft);margin-top:7px;}
+.sc-comp{position:absolute;top:12px;right:12px;font-family:var(--font-mono);font-size:8px;letter-spacing:.06em;color:var(--gold-deep);
+  background:rgba(184,144,47,.14);border:1px solid rgba(184,144,47,.3);border-radius:999px;padding:2px 7px;}
+.locked .sc-name{color:var(--ink-soft);opacity:.6;}
+.locked .sc-undisc{font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);opacity:.7;margin-top:7px;}
+.locked .sc-teaser{font-size:10.5px;font-style:italic;color:var(--ink-soft);opacity:.6;margin-top:6px;}
+
+/* recently stamped pulse */
+@keyframes stampdown{0%{transform:scale(2.4) rotate(-18deg);opacity:0;}55%{transform:scale(.92) rotate(-6deg);opacity:1;}70%{transform:scale(1.05) rotate(-6deg);}100%{transform:scale(1) rotate(-7deg);}}
+.stampcard.fresh{box-shadow:0 0 0 2px var(--gold),0 10px 24px -12px rgba(0,0,0,.5);}
+.stampcard.fresh .sc-stamp{animation:stampdown .7s cubic-bezier(.3,1.4,.5,1) both;}
+.fresh-badge{position:absolute;top:10px;right:10px;z-index:3;font-family:var(--font-display);font-weight:600;text-transform:uppercase;letter-spacing:.08em;
+  font-size:8px;color:#fff;background:var(--green);padding:3px 8px;border-radius:999px;animation:stampdown .6s both;}
+
+.empty-note{text-align:center;font-family:var(--font-body);font-style:italic;color:var(--ink-soft);font-size:13px;padding:30px 20px;}
+.pp-footer{text-align:center;font-family:var(--font-mono);font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);opacity:.5;margin-top:24px;}
+</style>
+</head>
+<body>
+  <div class="frame-wrap">
+    <div class="phone">
+      <div class="statusbar"><span>9:41</span><span>W.I.N.E. ⬢ <span class="batt"></span></span></div>
+      <div class="screen" id="screen"></div>
+    </div>
+  </div>
+  <script src="career.js"></script>
+  <script src="passport-data.js"></script>
+  <script>
+  (function(){
+    var screen=document.getElementById("screen");
+    var META=window.REGION_META, CATS=window.REGION_CATEGORIES;
+    var S=Career.state();
+    var log=S.regionLog||{};
+    var discovered=Object.keys(log);
+    var totalRegions=Object.keys(META).length;
+
+    // freshly stamped (from a just-won case)
+    var fresh=[];
+    try{fresh=JSON.parse(localStorage.getItem("cellarfiles:newstamps")||"[]");}catch(e){}
+    localStorage.removeItem("cellarfiles:newstamps");
+
+    function regionComplete(key){var c=(log[key]&&log[key].count)||0;return Math.min(100,c*50);} // 2 visits = cleared
+
+    function ringSVG(pct,size){
+      var r=size/2-5, cx=size/2, cy=size/2, circ=2*Math.PI*r, off=circ*(1-pct/100);
+      return '<svg viewBox="0 0 '+size+' '+size+'" width="'+size+'" height="'+size+'">'+
+        '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="rgba(216,188,115,.3)" stroke-width="5"/>'+
+        '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="#D8BC73" stroke-width="5" stroke-linecap="round" stroke-dasharray="'+circ+'" stroke-dashoffset="'+off+'" transform="rotate(-90 '+cx+' '+cy+')"/>'+
+        '<text x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="600" font-size="15" fill="#F6EEDA">'+Object.keys(log).length+'</text>'+
+        '</svg>';
+    }
+    function stampSVG(key,cleared){
+      var initials=(META[key].name.match(/\b[A-ZÉ]/g)||[]).slice(0,2).join("");
+      var col=cleared?"#6E2230":"#977322";
+      var n="st"+key.replace(/[^a-z]/gi,"");
+      return '<svg viewBox="0 0 62 62" width="62" height="62">'+
+        '<defs><path id="'+n+'" d="M 9 31 A 22 22 0 0 1 53 31" fill="none"/></defs>'+
+        '<circle cx="31" cy="31" r="28" fill="none" stroke="'+col+'" stroke-width="2" opacity="0.7"/>'+
+        '<circle cx="31" cy="31" r="23" fill="none" stroke="'+col+'" stroke-width="1" stroke-dasharray="2 2" opacity="0.6"/>'+
+        '<text font-family="Space Mono,monospace" font-size="6" letter-spacing="1.5" fill="'+col+'" opacity="0.85"><textPath href="#'+n+'" startOffset="50%" text-anchor="middle">W·I·N·E</textPath></text>'+
+        '<text x="31" y="37" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700" font-size="18" fill="'+col+'">'+initials+'</text>'+
+        '<text x="31" y="49" text-anchor="middle" font-family="Space Mono,monospace" font-size="5" letter-spacing="1" fill="'+col+'" opacity="0.8">'+(cleared?"CLEARED":"VISITED")+'</text>'+
+        '</svg>';
+    }
+
+    var newest = S.regions.length ? S.regions[S.regions.length-1] : null;
+    var lockedAll = Object.keys(META).filter(function(k){return discovered.indexOf(k)<0;});
+    var teaser = lockedAll.length ? META[lockedAll[0]] : null;
+
+    var html =
+      '<div class="pp-head">'+
+        '<a class="pp-back" href="index.html">‹ HQ</a>'+
+        '<div class="pp-title-row">'+
+          '<div class="pp-emboss"><svg viewBox="0 0 24 24" fill="none" stroke="#D8BC73" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="9.5" r="3"/><path d="M8.5 17h7"/></svg></div>'+
+          '<div class="pp-title">Agent Passport<small>W.I.N.E. · Travel Record</small></div>'+
+        '</div>'+
+        '<div class="pp-summary"><div class="pp-ring">'+ringSVG(discovered.length/totalRegions*100,62)+'</div>'+
+          '<div class="pp-sum-meta">'+
+            '<div class="ps-k">Regions Discovered</div>'+
+            '<div class="ps-v"><b>'+discovered.length+' of '+totalRegions+'</b> wine regions stamped</div>'+
+            (newest?'<div class="ps-v">Newest stamp: <b>'+META[newest].name+'</b></div>':'<div class="ps-v">No stamps yet — solve a case to travel.</div>')+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="body" id="bd"></div>';
+    screen.innerHTML=html;
+    var bd=document.getElementById("bd");
+
+    CATS.forEach(function(cat){
+      var keys=Object.keys(META).filter(function(k){return META[k].cat===cat;});
+      var disc=keys.filter(function(k){return discovered.indexOf(k)>=0;});
+      var sec=document.createElement("div"); sec.className="cat";
+      sec.innerHTML='<div class="cat-h"><span class="ct">'+cat+'</span>'+
+        '<span class="cbar"><i style="width:'+(disc.length/keys.length*100)+'%"></i></span>'+
+        '<span class="cnum">'+disc.length+'/'+keys.length+'</span></div>';
+      var grid=document.createElement("div"); grid.className="stamps";
+      keys.forEach(function(k){
+        var m=META[k], found=discovered.indexOf(k)>=0;
+        var card=document.createElement("div");
+        card.className="stampcard"+(found?"":" locked")+(fresh.indexOf(k)>=0?" fresh":"");
+        if(found){
+          var comp=regionComplete(k), cleared=comp>=100, count=(log[k].count||0);
+          card.innerHTML=
+            (fresh.indexOf(k)>=0?'<span class="fresh-badge">New</span>':'')+
+            '<div class="sc-stamp">'+stampSVG(k,cleared)+'</div>'+
+            '<span class="sc-comp">'+comp+'%</span>'+
+            '<div class="sc-name">'+m.name+'</div>'+
+            '<div class="sc-country">'+(window.flagFor&&window.flagFor(m.country)?'<img class="sc-flag" src="'+window.flagFor(m.country)+'" alt=""/>':'')+m.country+'</div>'+
+            '<div class="sc-fact">'+m.fact+'</div>'+
+            '<div class="sc-meta"><div><div class="mk">Cases here</div><div class="mv">'+count+'</div></div></div>'+
+            '<div class="sc-first">First discovered · '+log[k].firstCase+'</div>';
+        } else {
+          card.innerHTML=
+            '<div class="sc-stamp" style="opacity:.3">'+stampSVG(k,false)+'</div>'+
+            '<div class="sc-name">'+m.name.replace(/[A-Za-zÉé]/g,"•")+'</div>'+
+            '<div class="sc-undisc">Undiscovered</div>'+
+            '<div class="sc-teaser">'+m.cat+' · solve a case here to stamp this page.</div>';
+        }
+        grid.appendChild(card);
+      });
+      sec.appendChild(grid);
+      bd.appendChild(sec);
+    });
+
+    bd.insertAdjacentHTML("beforeend",'<div class="pp-footer">Property of W.I.N.E. · Eyes Only</div>');
+
+    // scroll first fresh stamp into view
+    if(fresh.length){var f=bd.querySelector(".stampcard.fresh"); if(f){screen.scrollTop=f.getBoundingClientRect().top+screen.scrollTop-260;}}
+  })();
+  </script>
+</body>
+</html>

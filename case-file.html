@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>The Cellar Files — Case File</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="case.css" />
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <rect width="100" height="100" fill="#5A1A26"/>
+    <circle cx="50" cy="46" r="20" fill="none" stroke="#D8BC73" stroke-width="2.5"/>
+    <path d="M50 38 v16 M42 46 h16" stroke="#D8BC73" stroke-width="2.5"/>
+    <path d="M64 60 l12 12" stroke="#D8BC73" stroke-width="3" stroke-linecap="round"/>
+    <text x="50" y="88" text-anchor="middle" font-family="monospace" font-size="8" letter-spacing="1.5" fill="#D8BC73">CASE FILE</text>
+  </svg>
+</template>
+</head>
+<body>
+  <div class="frame-wrap">
+    <div class="phone">
+      <div class="grain"></div>
+      <div class="statusbar">
+        <span>9:41</span>
+        <span class="dots"><i></i><i></i><i></i> W.I.N.E. <span class="batt"></span></span>
+      </div>
+      <div class="screen" id="screen"></div>
+
+      <!-- overlays live inside the phone -->
+      <div class="revealwrap" id="revealwrap"></div>
+      <div class="confirmwrap" id="confirmwrap"></div>
+      <div class="flyover" id="flyover"></div>
+      <div class="gtoast" id="gtoast"></div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="art.js"></script>
+  <script src="career.js"></script>
+  <script src="passport-data.js"></script>
+  <script src="regions.js"></script>
+  <script src="slots.js"></script>
+  <script src="case-data.js"></script>
+  <script src="case.js"></script>
+</body>
+</html>

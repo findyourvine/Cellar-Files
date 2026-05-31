@@ -1,0 +1,7 @@
+# Background-removal toolchain for character art.
+# rembg performs the semantic person segmentation (downloads its model on first run).
+rembg==2.0.59
+onnxruntime>=1.17
+pillow>=10.0
+numpy>=1.24
+scipy>=1.10
