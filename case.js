@@ -15,7 +15,8 @@
   var DIFF = (function () {
     var d = CASE.difficulty || {};
     return { label: d.label || "Rookie", startHeat: d.startHeat || 100,
-             destPenalty: d.destPenalty || 25, herringCost: d.herringCost || 0 };
+             destPenalty: d.destPenalty || 25, herringCost: d.herringCost || 0,
+             leadBudget: d.leadBudget || 9 };
   })();
   var screen = document.getElementById("screen");
   var reveal = document.getElementById("revealwrap");
@@ -177,8 +178,9 @@
       '<div class="kick"><span class="dot"></span> Stop ' + (S.leg + 1) + ' of ' + CASE.legs.length + ' · Investigating</div>' +
       '<div class="loc-name">' + leg.region + "</div>" +
       '<div class="loc-sub">' + leg.place + " · " + leg.country + "</div>" +
-      '<div class="minimap">' + minimapSVG() + pin(leg.region) +
-        '<img class="region-img" src="assets/maps/region-' + leg.region + '.png" alt="" onerror="this.remove()"/>' +
+      '<div class="minimap">' +
+        '<img class="world-map" src="assets/maps/world-map.png" alt="W.I.N.E. operations chart"/>' +
+        pin(leg.region) +
         (window.flagFor && window.flagFor(leg.country) ? '<img class="loc-flag" src="' + window.flagFor(leg.country) + '" alt=""/>' : "") +
       "</div>";
     v.appendChild(head);
@@ -207,16 +209,26 @@
       return;
     }
 
-    pad.insertAdjacentHTML("beforeend", '<div class="section-h">Leads <span class="hint">tap to investigate</span></div>');
+    var budget = DIFF.leadBudget || 99;
+    var nonDestOpened = 0;
+    leg.leads.forEach(function (L, i) { if (!L.dest && S.leadsDone[S.leg + ":" + i]) nonDestOpened++; });
+    var budgetLeft = Math.max(0, budget - nonDestOpened);
+    var restricted = budget < 9;
+    var hint = restricted
+      ? (budgetLeft + " investigation" + (budgetLeft === 1 ? "" : "s") + " left · the trail is free")
+      : "tap to investigate";
+    pad.insertAdjacentHTML("beforeend", '<div class="section-h">Leads <span class="hint">' + hint + '</span></div>');
     leg.leads.forEach(function (L, i) {
       var key = S.leg + ":" + i;
       var done = !!S.leadsDone[key];
-      var b = el("button", "lead" + (done ? " done" : ""));
+      var locked = !done && !L.dest && budgetLeft <= 0;
+      var b = el("button", "lead" + (done ? " done" : "") + (locked ? " spent" : ""));
       b.innerHTML =
         '<div class="l-ic">' + leadIcon(L.role) + "</div>" +
-        '<div><div class="l-role">' + (done ? "Logged" : L.role) + '</div><div class="l-title">' + L.title + "</div></div>" +
-        '<span class="l-arrow">' + (done ? "✓" : "›") + "</span>";
-      b.onclick = function () { openLead(L, key); };
+        '<div><div class="l-role">' + (done ? "Logged" : (locked ? "Out of time" : L.role)) + '</div><div class="l-title">' + L.title + "</div></div>" +
+        '<span class="l-arrow">' + (done ? "✓" : (locked ? "✕" : "›")) + "</span>";
+      if (locked) { b.disabled = true; }
+      else { b.onclick = function () { openLead(L, key); }; }
       pad.appendChild(b);
     });
     v.appendChild(pad);
@@ -235,6 +247,12 @@
   }
 
   function openLead(L, key) {
+    // budget guard: once investigations are spent, only the destination lead stays open
+    if (!L.dest && !S.leadsDone[key]) {
+      var lg = CASE.legs[S.leg], opened = 0;
+      lg.leads.forEach(function (LL, i) { if (!LL.dest && S.leadsDone[S.leg + ":" + i]) opened++; });
+      if (opened >= (DIFF.leadBudget || 99)) { return; }
+    }
     var firstTime = !S.leadsDone[key];
     S.leadsDone[key] = true;
     var logHtml = "";
