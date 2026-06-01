@@ -31,7 +31,7 @@ window.Career = (function () {
   function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
 
   function base() {
-    return { xp: 0, casesSolved: 0, caughtIds: [], regions: [], regionLog: {}, bottles: [], achievements: [] };
+    return { xp: 0, casesSolved: 0, casesDone: [], caughtIds: [], regions: [], regionLog: {}, bottles: [], achievements: [] };
   }
   function get() {
     var s = load();
@@ -60,7 +60,7 @@ window.Career = (function () {
     return {
       xp: s.xp, rank: r.rank, rankIndex: r.rankIndex, nextRank: r.next,
       progress: r.progress, xpToNext: r.toNext,
-      casesSolved: s.casesSolved, caughtIds: s.caughtIds.slice(),
+      casesSolved: s.casesSolved, casesDone: (s.casesDone||[]).slice(), caughtIds: s.caughtIds.slice(),
       regions: s.regions.slice(), regionLog: s.regionLog || {}, bottles: s.bottles.slice(),
       achievements: s.achievements.slice(),
       achievementDefs: ACHIEVEMENTS, ranks: RANKS,
@@ -77,6 +77,7 @@ window.Career = (function () {
     var gained = 120;
     s.xp += gained;
     s.casesSolved += 1;
+    if (result.caseId && s.casesDone.indexOf(result.caseId) < 0) s.casesDone.push(result.caseId);
     if (result.culpritId && s.caughtIds.indexOf(result.culpritId) < 0) s.caughtIds.push(result.culpritId);
     var newRegions = [];
     if (!s.regionLog) s.regionLog = {};
