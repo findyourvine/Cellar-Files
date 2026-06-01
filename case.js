@@ -143,7 +143,7 @@
     pad.appendChild(chiefRow);
 
     pad.insertAdjacentHTML("beforeend",
-      '<p class="brief-text"><span class="lead">“</span>' + CASE.brief + '”</p>');
+      '<p class="brief-text"><span class="bq-mark">“</span>' + CASE.brief + '”</p>');
 
     var btn = el("button", "btn gold");
     btn.textContent = "Accept the Case ›";
