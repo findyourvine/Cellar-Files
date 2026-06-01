@@ -205,7 +205,7 @@ body::before{
 .flyover{position:absolute;inset:0;z-index:70;display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;
   background:radial-gradient(circle at 50% 40%,#4a2a26,#23120f);color:var(--cream);text-align:center;padding:30px;}
 .flyover.show{display:flex;animation:fade .25s;}
-.flyover .fly-map{width:78%;aspect-ratio:2/1;position:relative;border:1px solid rgba(216,188,115,.3);border-radius:10px;overflow:hidden;
+.flyover .fly-map{width:78%;aspect-ratio:7/2;position:relative;border:1px solid rgba(216,188,115,.3);border-radius:10px;overflow:hidden;
   background:radial-gradient(120% 120% at 50% 0%,rgba(233,221,193,.16),rgba(58,42,28,.2));}
 .flyover .fly-map svg{position:absolute;inset:0;width:100%;height:100%;}
 .flyover .fly-route{stroke:var(--gold-soft);stroke-width:2.5;stroke-dasharray:5 4;fill:none;
@@ -288,3 +288,6 @@ body::before{
    and the character art was invisible. Size them to fill their round/square frames. */
 .ch-photo .gslot,.s-photo .gslot,.c-photo .gslot,.r-portrait .gslot{width:100%;height:100%;border:none;}
 .ch-photo .gslot .slot-img,.s-photo .gslot .slot-img,.c-photo .gslot .slot-img,.r-portrait .gslot .slot-img{background-position:center top;}
+
+/* transit flyover shows the destination region card */
+.flyover .fly-map .fly-region{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}

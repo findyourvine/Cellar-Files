@@ -320,11 +320,9 @@
     var path = "M " + pa.x + " " + pa.y + " Q " + mx + " " + my + " " + pb.x + " " + pb.y;
     flyover.innerHTML =
       '<div class="fly-k">In Transit</div>' +
-      '<div class="fly-map">' + minimapSVG() +
-        '<svg viewBox="0 0 100 50" preserveAspectRatio="none">' +
-          '<path class="fly-route" d="M ' + pa.x + ' ' + (pa.y / 2) + ' Q ' + mx + ' ' + (my / 2) + ' ' + pb.x + ' ' + (pb.y / 2) + '" style="--len:160"/>' +
-        "</svg>" +
-        pin(fromR) + pin(toR) +
+      '<div class="fly-map">' +
+        '<img class="fly-region" src="assets/maps/region-' + toR + '.png" alt="" ' +
+        'onerror="this.onerror=null;this.src=\'assets/maps/travel-banner.png\'"/>' +
       "</div>" +
       '<div><div class="fly-k">Now arriving</div><div class="fly-to">' + toR + "</div></div>";
     flyover.classList.add("show");
