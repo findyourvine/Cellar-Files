@@ -42,7 +42,7 @@ window.CASES = [
     title: "The Vanishing Cuvée",
     culprit: "champagne",                 // ← the answer
     reward: "◆ 1,200,000₣",
-    difficulty: { label: "Rookie", startHeat: 100, destPenalty: 25, herringCost: 0 },
+    difficulty: { label: "Rookie", startHeat: 100, destPenalty: 25, herringCost: 0, leadBudget: 9 },
     bottle: {
       name: "The 1921 “Comet” Cuvée",
       desc: "The only surviving bottle from the legendary comet harvest. Priceless. Irreplaceable.",
@@ -118,7 +118,7 @@ window.CASES = [
     title: "The Soundless Vintage",
     culprit: "decanter",                  // Sparkling · Stealth · Nothing
     reward: "◆ 2,400,000₣",
-    difficulty: { label: "Field", startHeat: 88, destPenalty: 30, herringCost: 8 },
+    difficulty: { label: "Field", startHeat: 88, destPenalty: 30, herringCost: 8, leadBudget: 2 },
     bottle: {
       name: "The 1928 “Solstice” Blanc de Noirs",
       desc: "A magnum of midnight-dark sparkling, sealed since the year it was made. It disappeared from a vault three floors beneath W.I.N.E. itself.",
@@ -140,7 +140,9 @@ window.CASES = [
             text: "The only anomaly: the freight lift logged a single unscheduled descent to the loading dock, then a courier crate booked north to the Burgundy crémant houses.",
             dest: true },
           { title: "The Dust-Ring", role: "Flavor",
-            text: "Forensics confirm it: not one print, fibre, or smudge. Just the clean circle where a priceless magnum used to be. Unsettlingly tidy." }
+            text: "Forensics confirm it: not one print, fibre, or smudge. Just the clean circle where a priceless magnum used to be. Unsettlingly tidy." },
+          { title: "The New Intern", role: "Tip",
+            text: "“I think I saw someone in a bright red coat bolt down the east stairwell!” There is no east stairwell. The intern started on Monday." }
         ],
         dest: { clue: "A courier crate booked north to the crémant houses of Burgundy.",
           correct: "BURGUNDY", options: ["BURGUNDY", "RIOJA", "BAROSSA"] }
@@ -155,7 +157,9 @@ window.CASES = [
             text: "A sealed wine-wagon coupled to the overnight express across the Alps to the sparkling cellars of Piedmont.",
             dest: true },
           { title: "Apprentice", role: "Flavor",
-            text: "“I passed someone on the cellar stair. Polite. Gloved. Gone before I'd finished saying good evening.” He shivers, unsure why." }
+            text: "“I passed someone on the cellar stair. Polite. Gloved. Gone before I'd finished saying good evening.” He shivers, unsure why." },
+          { title: "Village Gossip", role: "Hearsay",
+            text: "Half the café swears the thief was a tall man with a limp; the other half, a short woman in furs. They agree only that someone bought the whole bar a round." }
         ],
         dest: { clue: "An overnight wagon across the Alps to the sparkling cellars of Piedmont.",
           correct: "PIEDMONT", options: ["TUSCANY", "PIEDMONT", "PROVENCE"] }
@@ -170,7 +174,9 @@ window.CASES = [
             text: "A discreet export form: one climate-controlled trunk, declared “glassware,” routed to the slate-steep Riesling slopes of the Mosel.",
             dest: true },
           { title: "Tasting Notes", role: "Flavor",
-            text: "Left on the counter, a single line in immaculate hand: “Adequate. Not the prize.” The thief has standards, evidently." }
+            text: "Left on the counter, a single line in immaculate hand: “Adequate. Not the prize.” The thief has standards, evidently." },
+          { title: "Anonymous Note", role: "Tip",
+            text: "A note slipped under the office door names a local rival as the culprit. The rival was in hospital all week. Someone wants your eyes pointed the wrong way." }
         ],
         dest: { clue: "A trunk marked “glassware,” bound for the slate slopes of the Mosel.",
           correct: "MOSEL", options: ["RHONE", "MOSEL", "DOURO"] }
@@ -194,7 +200,7 @@ window.CASES = [
     title: "The Lost Cask",
     culprit: "jack",                      // Bold Red · Stealth · A mess
     reward: "◆ 3,100,000₣",
-    difficulty: { label: "Veteran", startHeat: 74, destPenalty: 34, herringCost: 10 },
+    difficulty: { label: "Veteran", startHeat: 74, destPenalty: 34, herringCost: 10, leadBudget: 2 },
     bottle: {
       name: "The 1847 “Conquistador” Tempranillo",
       desc: "A bottle dredged from a galleon wreck and worth more than the ship that carried it. Stolen from a guarded Rioja bodega before sunrise.",
@@ -216,7 +222,9 @@ window.CASES = [
             text: "Tyre tracks and a dropped cargo tag: a river barge chartered down to the terraced Port lodges of the Douro.",
             dest: true },
           { title: "Toppled Racks", role: "Flavor",
-            text: "Two hundred bottles shoved aside, a barrel split open across the floor. Whoever it was did not tiptoe — they bulldozed." }
+            text: "Two hundred bottles shoved aside, a barrel split open across the floor. Whoever it was did not tiptoe — they bulldozed." },
+          { title: "A Passing Shepherd", role: "Hearsay",
+            text: "“Saw a truck go north to the coast at dawn — or south, maybe. These old eyes.” He gestures in three different directions over one sentence. Nothing you can use." }
         ],
         dest: { clue: "A barge chartered to the terraced Port lodges of the Douro.",
           correct: "DOURO", options: ["BORDEAUX", "DOURO", "TUSCANY"] }
@@ -231,7 +239,9 @@ window.CASES = [
             text: "A freighter berth booked under a false name, bound across the Atlantic for the high-altitude Malbec country under the Andes.",
             dest: true },
           { title: "Old Cellarman", role: "Flavor",
-            text: "“Treasure-hunters, not thieves. They don't want money — they want the story of the bottle. Worse, somehow.”" }
+            text: "“Treasure-hunters, not thieves. They don't want money — they want the story of the bottle. Worse, somehow.”" },
+          { title: "Dockside Tout", role: "Tip",
+            text: "For one coin he'll swear the thief sailed east to the Cape; for two, west to the Americas; for three, he admits he saw nothing at all. You keep your coins." }
         ],
         dest: { clue: "A freighter to the high-altitude Malbec country under the Andes.",
           correct: "MENDOZA", options: ["MENDOZA", "PATAGONIA", "NAPA"] }
@@ -243,12 +253,28 @@ window.CASES = [
             text: "“He left a mess and a half — door off its hinges, crates everywhere, muddy boots clean across the tasting room. Subtle as a rockslide.”",
             clue: { cat: "card", val: "A mess" } },
           { title: "Airstrip Log", role: "Evidence",
-            text: "A light plane filed a dawn flight across the Pacific to the old-vine Shiraz country of the Barossa.",
+            text: "A light plane filed a short dawn hop north — to the highest vineyards in the country, the Torrontés terraces of Cafayate.",
             dest: true },
           { title: "Torn Map", role: "Flavor",
-            text: "Dropped in the mud: a wine-region map, one valley circled hard enough to tear the paper. He's not done collecting." }
+            text: "Dropped in the mud: a wine-region map, one valley circled hard enough to tear the paper. He's not done collecting." },
+          { title: "Souvenir Stall", role: "Tip",
+            text: "The vendor insists the man bought a postcard of the Sydney Opera House — proof, he says, of the thief's next stop. He sells that same postcard to every tourist who'll listen." }
         ],
-        dest: { clue: "A dawn flight to the old-vine Shiraz country of the Barossa.",
+        dest: { clue: "A dawn hop north to the highest vineyards in the land — Cafayate.",
+          correct: "CAFAYATE", options: ["PATAGONIA", "CAFAYATE", "NAPA"] }
+      },
+      {
+        region: "CAFAYATE", country: "Argentina", place: "Torrontés terraces — Cafayate",
+        leads: [
+          { title: "Airfield Marshal", role: "Evidence",
+            text: "“Refuelled a light plane at first light — filed across the Pacific for the old-vine Shiraz country. The Barossa. You just missed him by an hour.”",
+            dest: true },
+          { title: "Torrontés Grower", role: "Flavor",
+            text: "“He bought every bottle of our oldest vintage, toasted ‘the final leg,’ and left without paying. Charming, in a way.”" },
+          { title: "Hitchhiker's Rumour", role: "Tip",
+            text: "A backpacker swears the man muttered about Mendoza, then Chile, then somewhere he couldn't pronounce. A trail of red herrings — possibly deliberate." }
+        ],
+        dest: { clue: "A dawn plane across the Pacific to the old-vine Shiraz country — the Barossa.",
           correct: "BAROSSA", options: ["MARLBOROUGH", "BAROSSA", "STELLENBOSCH"] }
       },
       {
@@ -261,5 +287,279 @@ window.CASES = [
         dest: null
       }
     ]
+  },
+  /* ========================= CASE 4 ========================= */
+  {
+    id: "pink-mirage",
+    codename: "Operation Pink Mirage",
+    title: "The Blushing Crown",
+    culprit: "renee",                     // Pink · Spectacle · A hashtag
+    reward: "◆ 3,800,000₣",
+    difficulty: { label: "Inspector", startHeat: 68, destPenalty: 36, herringCost: 10, leadBudget: 2 },
+    bottle: {
+      name: "The 1843 “Rosa Aurora”",
+      desc: "The oldest surviving rosé on earth — a blush-pink relic worth more for its legend than its label. Lifted from a Provence estate mid-party.",
+      slotId: "case-mirage-bottle"
+    },
+    scene: { region: "PROVENCE", place: "Domaine Soleil Rosé, Provence" },
+    brief:
+      "She didn't sneak in, Chief — she headlined. Two hundred guests, a string quartet, and the Rosa Aurora gone " +
+      "between the toast and the encore. This one performs for an audience and signs her work where everyone can see it. " +
+      "Follow the spectacle, log her signature, and don't let the show distract you from the warrant.",
+    legs: [
+      {
+        region: "PROVENCE", country: "France", place: "Domaine Soleil Rosé — Provence",
+        leads: [
+          { title: "The Vigneronne", role: "Witness",
+            text: "“She was invited — posed by the vats, toasted the room, blew a kiss. Somewhere between the applause and the encore, the Rosa Aurora simply left with her. Pure theatre.”",
+            clue: { cat: "method", val: "Spectacle" } },
+          { title: "Valet Stub", role: "Evidence",
+            text: "A torn itinerary under the valet desk: a private jet logged wheels-up for the Napa Valley before the party had even ended.",
+            dest: true },
+          { title: "The Guestlist", role: "Flavor",
+            text: "Her name appears nowhere. At the top of the list, in its place, a single lipstick kiss and a hand-drawn heart." },
+          { title: "Fan Account", role: "Tip",
+            text: "A breathless online account swears she fled by yacht to Monaco. The same account claims she is secretly three different pop stars. Unverified, to put it kindly." }
+        ],
+        dest: { clue: "A private jet, wheels-up for the Napa Valley.",
+          correct: "NAPA", options: ["NAPA", "BORDEAUX", "MENDOZA"] }
+      },
+      {
+        region: "NAPA", country: "United States", place: "Hilltop tasting gallery — Napa Valley",
+        leads: [
+          { title: "Gallery Owner", role: "Witness",
+            text: "“She tagged us. Tagged the crime. By morning #BlushBandit was everywhere and our security footage had nine million views. She wants the audience as much as the wine.”",
+            clue: { cat: "card", val: "A hashtag" } },
+          { title: "Concierge Note", role: "Evidence",
+            text: "The hotel concierge — starstruck — booked her next stay himself: a hilltop villa above the vineyards of Tuscany.",
+            dest: true },
+          { title: "Lipstick", role: "Flavor",
+            text: "One perfect lipstick crescent on a glass at the tasting bar. The shade, the lab confirms, is discontinued and absurdly expensive." },
+          { title: "Influencer Tip", role: "Tip",
+            text: "A rival influencer DMs the bureau 'exclusive intel' for a fee. The intel is a screenshot of a map with a question mark on it. Declined." }
+        ],
+        dest: { clue: "A villa above the vineyards of Tuscany.",
+          correct: "TUSCANY", options: ["TUSCANY", "RIOJA", "MOSEL"] }
+      },
+      {
+        region: "TUSCANY", country: "Italy", place: "Brunello estate — Tuscany",
+        leads: [
+          { title: "Estate Sommelier", role: "Witness",
+            text: "“Rows of priceless Brunello, untouched. She crossed the whole cellar for one thing — the pink. Always the pink. If it doesn't blush, she isn't interested.”",
+            clue: { cat: "wineTrail", val: "Pink" } },
+          { title: "Heliport Log", role: "Evidence",
+            text: "A helicopter manifest: one passenger, a great deal of luggage, destination the Pinot and Zinfandel country of Sonoma.",
+            dest: true },
+          { title: "Polaroid", role: "Flavor",
+            text: "Pinned to the cellar door, a Polaroid of the empty rack where the rosé stood — captioned, in glitter pen, 'borrowed ♥'." },
+          { title: "Tour Guide", role: "Hearsay",
+            text: "A tour guide swears she's still in the building, signing autographs. He is describing a different woman entirely, and possibly a mannequin." }
+        ],
+        dest: { clue: "A helicopter to the Pinot and Zinfandel country of Sonoma.",
+          correct: "SONOMA", options: ["SONOMA", "DOURO", "PIEDMONT"] }
+      },
+      {
+        region: "SONOMA", country: "United States", place: "Vineyard estate — Sonoma",
+        final: true,
+        leads: [
+          { title: "The Vineyard Estate", role: "Final Approach",
+            text: "A ring light glows on the porch. The Rosa Aurora sits on a marble table, perfectly staged, a phone propped to film whatever happens next. She's expecting an audience. Give her a warrant instead." }
+        ],
+        dest: null
+      }
+    ]
+  },
+
+  /* ========================= CASE 5 ========================= */
+  {
+    id: "counterfeit-cru",
+    codename: "Operation Sleight",
+    title: "The Counterfeit Cru",
+    culprit: "pinot",                     // Bold Red · Trickery · Nothing
+    reward: "◆ 4,500,000₣",
+    difficulty: { label: "Senior", startHeat: 62, destPenalty: 38, herringCost: 12, leadBudget: 2 },
+    bottle: {
+      name: "The “Phantom” Clos",
+      desc: "A single-vineyard red so rare that experts argue whether it ever truly existed. Now it's gone — and so is the proof it was ever real.",
+      slotId: "case-sleight-bottle"
+    },
+    scene: { region: "BORDEAUX", place: "Château Verité first-growth cellar, Bordeaux" },
+    brief:
+      "No broken locks, no alarms, no thief on any camera — just a flawless fake sitting where the Phantom Clos used to be. " +
+      "This one doesn't steal so much as rewrite the truth. Trust nothing you're handed, weigh every witness, and remember: " +
+      "the cleverest evidence here was left for you to find.",
+    legs: [
+      {
+        region: "BORDEAUX", country: "France", place: "Château Verité — Bordeaux",
+        leads: [
+          { title: "Château Régisseur", role: "Witness",
+            text: "“He never touched the whites. Walked the first-growth cellar like a man reading a menu, took the boldest red on the estate, and left a perfect forgery in its place. We didn't notice for a week.”",
+            clue: { cat: "wineTrail", val: "Bold Red" } },
+          { title: "Forged Invoice", role: "Evidence",
+            text: "The fake paperwork is too good — printed on a press only three houses own. One of them sits in the northern Rhône.",
+            dest: true },
+          { title: "The Replica", role: "Flavor",
+            text: "The bottle he left is flawless to the eye: right label, right capsule, right ullage. Inside: cooking wine. A small, expensive joke." },
+          { title: "Wine Critic", role: "Tip",
+            text: "A famous critic insists the theft is a hoax and the bottle never existed. He is suing everyone involved, including, somehow, the bureau." }
+        ],
+        dest: { clue: "A press found in only three houses — one in the northern Rhône.",
+          correct: "RHONE", options: ["RHONE", "TUSCANY", "GENEVA"] }
+      },
+      {
+        region: "RHONE", country: "France", place: "Engraving workshop — Northern Rhône",
+        leads: [
+          { title: "Print Shop Owner", role: "Witness",
+            text: "“Gone without a trace. No order slip, no name, no security trip. The plates for our rarest labels just… weren't where I left them. Like he was never here at all.”",
+            clue: { cat: "card", val: "Nothing" } },
+          { title: "Freight Tag", role: "Evidence",
+            text: "A single shipping tag fluttered loose under the press: a crate routed to a fine-wine vault in the Napa Valley.",
+            dest: true },
+          { title: "Empty Frame", role: "Flavor",
+            text: "Where a certificate of authenticity once hung, an empty frame — and a business card, blank on both sides." },
+          { title: "Anonymous Caller", role: "Tip",
+            text: "A caller offers to name the thief in exchange for immunity, then recounts, in detail, the plot of a heist film. He hangs up before anyone can object." }
+        ],
+        dest: { clue: "A crate routed to a fine-wine vault in the Napa Valley.",
+          correct: "NAPA", options: ["NAPA", "BURGUNDY", "BAROSSA"] }
+      },
+      {
+        region: "NAPA", country: "United States", place: "Bonded wine vault — Napa Valley",
+        leads: [
+          { title: "Vault Manager", role: "Witness",
+            text: "“He had papers for everything — ownership, transfer, insurance, all flawless forgeries. He didn't steal the bottle. He convinced us to hand it over and thank him for the privilege.”",
+            clue: { cat: "method", val: "Trickery" } },
+          { title: "Decoy Ticket", role: "Evidence",
+            text: "Left too neatly in the visitor log — a boarding pass to the Pinot country of Sonoma, seat circled. A taunt. He always leaves one.",
+            dest: true },
+          { title: "Card Trick", role: "Flavor",
+            text: "On the manager's desk, a deck fanned face-up — every card the ace of spades. Forged, naturally." },
+          { title: "Eyewitness", role: "Hearsay",
+            text: "A guard swears the thief 'vanished into thin air.' The footage shows the thief strolling out the front door while the guard looked at his phone." }
+        ],
+        dest: { clue: "A taunting boarding pass to the Pinot country of Sonoma.",
+          correct: "SONOMA", options: ["SONOMA", "MENDOZA", "LOIRE"] }
+      },
+      {
+        region: "SONOMA", country: "United States", place: "Backroad roadhouse — Sonoma",
+        leads: [
+          { title: "Roadhouse Bartender", role: "Evidence",
+            text: "“Paid in old francs, tipped me in card tricks. Said he was 'going home to the only honest dirt in America' — the Willamette. Then he was gone.”",
+            dest: true },
+          { title: "Matchbook", role: "Flavor",
+            text: "A matchbook from the bar, a phone number inside scratched out and replaced with two words: 'nice try.'" },
+          { title: "Local Legend", role: "Hearsay",
+            text: "Regulars insist a ghost haunts the cellar and took the bottle. The 'ghost' bought a round on Tuesday and paid with a forged twenty." }
+        ],
+        dest: { clue: "'Going home' — the Pinot Noir country of the Willamette.",
+          correct: "WILLAMETTE", options: ["WILLAMETTE", "FINGER LAKES", "PROVENCE"] }
+      },
+      {
+        region: "WILLAMETTE", country: "United States", place: "Quiet farmhouse — Willamette Valley",
+        final: true,
+        leads: [
+          { title: "The Quiet Farmhouse", role: "Final Approach",
+            text: "No alarms, no tricks, no forgeries — just a porch light, the Phantom Clos uncorked on the kitchen table, and a man who seems almost relieved you finally saw through it all. Issue the warrant before he talks his way out of this one too." }
+        ],
+        dest: null
+      }
+    ]
+  },
+
+  /* ========================= CASE 6 ========================= */
+  {
+    id: "kingpin",
+    codename: "Operation Kingpin",
+    title: "The Last Cork",
+    culprit: "corkfather",                // Bold Red · Muscle · A token
+    reward: "◆ 6,000,000₣",
+    difficulty: { label: "Master", startHeat: 56, destPenalty: 40, herringCost: 12, leadBudget: 2 },
+    bottle: {
+      name: "The 1900 “Capo” Barolo",
+      desc: "The bottle the whole syndicate was built on. Take it, and you take the throne. The Corkfather has no intention of letting that happen.",
+      slotId: "case-kingpin-bottle"
+    },
+    scene: { region: "TUSCANY", place: "Fortified Brunello estate, Tuscany" },
+    brief:
+      "This is the one, Chief — the head of the table himself. The Capo Barolo torn from a fortified estate by a small army, " +
+      "and he wants us to know it was him. He only takes the big reds, he takes them by force, and he signs every job with that " +
+      "wax-sealed cork. You'll need all three to be certain — guess wrong on the Kingpin and he walks. Bring him in for good.",
+    legs: [
+      {
+        region: "TUSCANY", country: "Italy", place: "Fortified Brunello estate — Tuscany",
+        leads: [
+          { title: "Estate Manager", role: "Witness",
+            text: "“Forty men's worth of damage and they took one case — the biggest, boldest Barolo in the house. The boss only ever wants the reds. Everything else is just mess on the way out.”",
+            clue: { cat: "wineTrail", val: "Bold Red" } },
+          { title: "Convoy Tracks", role: "Evidence",
+            text: "Three black cars, no plates, headed north on the autostrada toward the sparkling-wine hills of Piedmont. Witnesses suddenly can't remember a thing.",
+            dest: true },
+          { title: "The Cork", role: "Flavor",
+            text: "Pressed into the dust where the case stood: a single cork, sealed in red wax with a signet only one man uses." },
+          { title: "Nervous Clerk", role: "Tip",
+            text: "A clerk whispers a name, recants, asks for witness protection, then faints. The name he gave belongs to a man who died in 1976." }
+        ],
+        dest: { clue: "Three plateless cars, north toward the hills of Piedmont.",
+          correct: "PIEDMONT", options: ["PIEDMONT", "RIOJA", "NAPA"] }
+      },
+      {
+        region: "PIEDMONT", country: "Italy", place: "Barolo cellar — Piedmont",
+        leads: [
+          { title: "Cellar Owner", role: "Witness",
+            text: "“No finesse. No locks picked. They took the doors off the hinges and the safe out through the wall. You don't hire thieves like that — you hire an army. And only one man has one.”",
+            clue: { cat: "method", val: "Muscle" } },
+          { title: "Customs Bribe", role: "Evidence",
+            text: "A customs officer, suddenly wealthy and very nervous, waved through a sealed truck bound for the steep terraces of the northern Rhône.",
+            dest: true },
+          { title: "Broken Door", role: "Flavor",
+            text: "The vault door lies flat in the courtyard, hinges and all. Scorched faintly into the steel: that same wax-seal mark." },
+          { title: "Rival Boss", role: "Tip",
+            text: "An anonymous note fingers a rival syndicate — printed, conveniently, on that rival's own letterhead. Either a blunder or exactly what they want you to think." }
+        ],
+        dest: { clue: "A bribed-through truck bound for the northern Rhône.",
+          correct: "RHONE", options: ["RHONE", "MOSEL", "DOURO"] }
+      },
+      {
+        region: "RHONE", country: "France", place: "Syrah terraces — Northern Rhône",
+        leads: [
+          { title: "The Vigneron", role: "Witness",
+            text: "“They left it on the barrel like a calling card — a cork, sealed in red wax, stamped with his mark. The Corkfather wants you to know it was him. That's the whole point.”",
+            clue: { cat: "card", val: "A token" } },
+          { title: "Manifest", role: "Evidence",
+            text: "A freight manifest paid in full, in cash: a temperature-controlled lorry crossing the Pyrenees to the old bodegas of Rioja.",
+            dest: true },
+          { title: "The Seal", role: "Flavor",
+            text: "Lab analysis of the wax: a recipe unchanged in sixty years, traceable to one estate. His estate." },
+          { title: "Loose Henchman", role: "Tip",
+            text: "A low-level courier offers to flip. Mid-confession he gets a text, goes pale, and recalls he was 'on holiday the whole time.'" }
+        ],
+        dest: { clue: "A cash-paid lorry over the Pyrenees to the bodegas of Rioja.",
+          correct: "RIOJA", options: ["RIOJA", "BORDEAUX", "STELLENBOSCH"] }
+      },
+      {
+        region: "RIOJA", country: "Spain", place: "Abandoned bodega — Rioja",
+        leads: [
+          { title: "Stationmaster", role: "Evidence",
+            text: "“The convoy came through at dawn and didn't stop. Headed for the one place he's never let us touch — the family estate in Bordeaux. He's going home.”",
+            dest: true },
+          { title: "Empty Bodega", role: "Flavor",
+            text: "Not robbed — abandoned in a hurry. On the wall, a fresh wax seal, still soft to the touch. You're close." },
+          { title: "Old Rumour", role: "Hearsay",
+            text: "Locals say the Corkfather can't be arrested — that he owns judges, ports, and the weather. One adds, helpfully, that he is also nine feet tall." }
+        ],
+        dest: { clue: "Going home — the family estate in Bordeaux.",
+          correct: "BORDEAUX", options: ["BORDEAUX", "MARLBOROUGH", "CAFAYATE"] }
+      },
+      {
+        region: "BORDEAUX", country: "France", place: "The family estate — Bordeaux",
+        final: true,
+        leads: [
+          { title: "The Family Estate", role: "Final Approach",
+            text: "Wrought-iron gates, a long gravel drive, and at the end of it the Capo Barolo decanted on a table set for two — one glass for him, one, it seems, for you. The whole syndicate behind these walls, and the man who runs it waiting calmly in his chair. Issue the warrant. Then bring him in for good." }
+        ],
+        dest: null
+      }
+    ]
   }
+
 ];
