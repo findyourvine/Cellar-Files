@@ -146,8 +146,8 @@ body::before{
 .loc-flag{position:absolute;top:8px;right:8px;width:36px;height:auto;border:1.5px solid var(--oak);border-radius:3px;box-shadow:0 2px 6px rgba(0,0,0,.45);z-index:3;}
 .o-flag{width:100%;height:100%;object-fit:cover;display:block;}
 .travel-banner{width:100%;height:auto;border-radius:11px;display:block;margin-bottom:14px;border:1px solid var(--rule);}
-.minimap .mpin .d{width:16px;height:16px;border-radius:50%;background:var(--accent);border:2px solid var(--cream);box-shadow:0 2px 5px rgba(0,0,0,.4);}
-.minimap .mpin .png{position:absolute;inset:0;border-radius:50%;border:2px solid var(--accent);animation:png 2.4s infinite;}
+.minimap .mpin .d{position:absolute;inset:0;box-sizing:border-box;width:16px;height:16px;border-radius:50%;background:var(--accent);border:2px solid var(--cream);box-shadow:0 2px 5px rgba(0,0,0,.4);}
+.minimap .mpin .png{position:absolute;inset:0;box-sizing:border-box;border-radius:50%;border:2px solid var(--accent);animation:png 2.4s infinite;}
 @keyframes png{0%{transform:scale(1);opacity:.6;}70%{transform:scale(3);opacity:0;}100%{opacity:0;}}
 
 .section-h{font-family:var(--font-display);font-weight:600;text-transform:uppercase;letter-spacing:.16em;font-size:13px;color:var(--ink);
