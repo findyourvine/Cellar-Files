@@ -43,6 +43,9 @@ window.ART_MANIFEST = {};
   window.ART_MANIFEST["case-comet-bottle"] = "assets/props/stolen-bottle.png";
   window.ART_MANIFEST["case-silent-bottle"] = "assets/props/stolen-bottle.png";
   window.ART_MANIFEST["case-relic-bottle"]  = "assets/props/stolen-bottle.png";
+  window.ART_MANIFEST["case-mirage-bottle"]  = "assets/props/stolen-bottle.png";
+  window.ART_MANIFEST["case-sleight-bottle"] = "assets/props/stolen-bottle.png";
+  window.ART_MANIFEST["case-kingpin-bottle"] = "assets/props/stolen-bottle.png";
 })();
 
 /* ------------------------------------------------------------
