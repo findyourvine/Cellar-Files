@@ -41,6 +41,8 @@ window.ART_MANIFEST = {};
   // shared props
   window.ART_MANIFEST["world-map"] = "assets/maps/world-map.png";
   window.ART_MANIFEST["case-comet-bottle"] = "assets/props/stolen-bottle.png";
+  window.ART_MANIFEST["case-silent-bottle"] = "assets/props/stolen-bottle.png";
+  window.ART_MANIFEST["case-relic-bottle"]  = "assets/props/stolen-bottle.png";
 })();
 
 /* ------------------------------------------------------------
