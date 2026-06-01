@@ -6,7 +6,12 @@
    ============================================================ */
 (function () {
   var CH = window.CHARACTERS, REG = window.REGIONS, TR = window.TRAITS;
-  var CASE = window.CASES[0];
+  var CASE = (function () {
+    var id = null;
+    try { id = new URLSearchParams(location.search).get("case"); } catch (e) {}
+    var found = id && window.CASES.filter(function (c) { return c.id === id; })[0];
+    return found || window.CASES[0];
+  })();
   var screen = document.getElementById("screen");
   var reveal = document.getElementById("revealwrap");
   var confirmW = document.getElementById("confirmwrap");
@@ -474,10 +479,20 @@
       v.appendChild(res);
     }
 
+    var curIdx = window.CASES.indexOf(CASE);
+    var nextCase = window.CASES[curIdx + 1];
     var btn = el("button", "btn gold");
-    btn.textContent = S.win ? "Next Case ↻" : "Reopen the Case ↻";
     btn.style.marginTop = "8px";
-    btn.onclick = function () { reset(); go("briefing"); };
+    if (S.win && nextCase) {
+      btn.textContent = "Next Case: " + nextCase.title + " ↦";
+      btn.onclick = function () { location.href = "case-file.html?case=" + nextCase.id; };
+    } else if (S.win) {
+      btn.textContent = "Case Files Closed — Return to HQ ✦";
+      btn.onclick = function () { location.href = "index.html"; };
+    } else {
+      btn.textContent = "Reopen the Case ↻";
+      btn.onclick = function () { reset(); go("briefing"); };
+    }
     res.appendChild(btn);
 
     var hq = el("a", "btn ghost");
