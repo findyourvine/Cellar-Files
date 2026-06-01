@@ -251,44 +251,6 @@
     exb.appendChild(exrow);
     pad.appendChild(exb);
 
-    /* poses gallery */
-    var pb = block("Poses", "tap to feature in hero");
-    var prow = document.createElement("div");
-    prow.className = "poses";
-    prowRef = prow;
-    c.poses.forEach(function (p, i) {
-      var item = document.createElement("div");
-      item.className = "poserow" + (i === s.pose ? " active" : "");
-      var slot = Slots.create(poseId(i), p.label, "drop");
-      var lbl = document.createElement("span");
-      lbl.className = "plabel";
-      lbl.textContent = p.label;
-      lbl.onclick = function () { featurePose(i); };
-      slot.addEventListener("click", function () { if (slot.classList.contains("has-img")) featurePose(i); });
-      item.appendChild(slot);
-      item.appendChild(lbl);
-      prow.appendChild(item);
-    });
-    pb.appendChild(prow);
-    pad.appendChild(pb);
-
-    /* palette */
-    var clb = block("Color Palette", "tap a swatch to copy");
-    var pal = document.createElement("div");
-    pal.className = "palette";
-    c.palette.forEach(function (sw) {
-      var el = document.createElement("div");
-      el.className = "swatch" + (isLight(sw.hex) ? " light" : "");
-      el.style.setProperty("--sw", sw.hex);
-      el.innerHTML =
-        '<div class="meta"><span class="sw-name">' + sw.name + '</span><span class="sw-hex">' + sw.hex.toUpperCase() + "</span></div>" +
-        '<div class="copied">Copied</div>';
-      el.onclick = function () { copyHex(sw.hex.toUpperCase(), el); };
-      pal.appendChild(el);
-    });
-    clb.appendChild(pal);
-    pad.appendChild(clb);
-
     pad.appendChild(footerEl(c));
     sheet.appendChild(spine());
     sheet.appendChild(pad);
