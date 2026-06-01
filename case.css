@@ -283,3 +283,8 @@ body::before{
   background:var(--ink);color:var(--cream);font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;
   padding:10px 16px;border-radius:999px;opacity:0;transition:.25s;pointer-events:none;border:1px solid var(--gold-deep);max-width:80%;text-align:center;}
 .gtoast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* The case page loads only case.css, so these .gslot photo slots have no height
+   and the character art was invisible. Size them to fill their round/square frames. */
+.ch-photo .gslot,.s-photo .gslot,.c-photo .gslot,.r-portrait .gslot{width:100%;height:100%;border:none;}
+.ch-photo .gslot .slot-img,.s-photo .gslot .slot-img,.c-photo .gslot .slot-img,.r-portrait .gslot .slot-img{background-position:center top;}
