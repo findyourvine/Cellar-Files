@@ -127,6 +127,17 @@ body{font-family:var(--font-body);color:var(--ink);background:radial-gradient(12
 .devcard .d-name{font-family:var(--font-display);font-weight:600;text-transform:uppercase;font-size:24px;color:var(--burgundy);margin:3px 0 10px;line-height:1;}
 .devcard .d-desc{font-size:15.5px;line-height:1.55;color:var(--ink);}
 .devcard .d-close{margin-top:18px;width:100%;font-family:var(--font-display);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:14px;border:none;border-radius:11px;padding:14px;background:linear-gradient(180deg,var(--burgundy),var(--burgundy-deep));color:var(--cream);cursor:pointer;}
+.cf-list{margin:8px 0 4px;display:flex;flex-direction:column;gap:10px;max-height:48vh;overflow:auto;}
+.cf-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;border:1px solid var(--rule);background:rgba(255,255,255,.42);}
+.cf-row.solved{border-color:rgba(120,150,95,.55);background:rgba(120,150,95,.13);}
+.cf-row.locked{opacity:.6;border-style:dashed;}
+.cf-meta{flex:1;min-width:0;}
+.cf-code{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);}
+.cf-stat{color:var(--ink-soft);}
+.cf-title{font-family:var(--font-display);font-weight:600;text-transform:uppercase;font-size:17px;color:var(--burgundy);line-height:1.05;margin:2px 0;}
+.cf-reward{font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);}
+.cf-go{display:inline-block;font-family:var(--font-display);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:12px;text-decoration:none;background:linear-gradient(180deg,var(--burgundy),var(--burgundy-deep));color:var(--cream);padding:9px 13px;border-radius:9px;white-space:nowrap;}
+.cf-lock{display:inline-block;font-size:10px;color:var(--ink-soft);font-style:italic;max-width:120px;text-align:right;line-height:1.3;}
 </style>
 </head>
 <body>
@@ -141,12 +152,15 @@ body{font-family:var(--font-body);color:var(--ink);background:radial-gradient(12
   <script src="data.js"></script>
   <script src="art.js"></script>
   <script src="career.js"></script>
+  <script src="case-data.js"></script>
   <script src="passport-data.js"></script>
   <script>
   (function () {
     var screen = document.getElementById("screen");
     var devwrap = document.getElementById("devwrap");
     var S = Career.state();
+    var doneIds = S.casesDone || [];
+    var curCase = (window.CASES || []).filter(function (c) { return doneIds.indexOf(c.id) < 0; })[0] || (window.CASES || [])[0];
     var META = window.REGION_META || {};
     var ppTotal = Object.keys(META).length;
     var ppDisc = (S.regions || []).filter(function (k) { return META[k]; });
@@ -175,12 +189,12 @@ body{font-family:var(--font-body);color:var(--ink);background:radial-gradient(12
     /* LIVE modules link out; DEV modules open an info sheet. */
     var MODULES = [
       { ic: "database", name: "Criminal Database", sub: S.totalCriminals + " of The Decanted on file", href: "character-bible.html", live: true },
-      { ic: "case", name: "Active Investigation", sub: "The clue-chase loop", href: "case-file.html", live: true },
+      { ic: "case", name: "Active Investigation", sub: curCase ? curCase.codename : "The clue-chase loop", href: "case-file.html" + (curCase ? "?case=" + curCase.id : ""), live: true },
       { ic: "map", name: "Operations Map", sub: "Track pursuits worldwide", href: "character-bible.html#map", live: true },
       { ic: "passport", name: "Agent Passport", sub: ppDisc.length + " of " + ppTotal + " regions stamped", href: "passport.html", live: true },
       { ic: "evidence", name: "Evidence Board", sub: "Pin clues & connect", dev: "A corkboard of photos, clues and red string. Pin evidence from across cases and connect The Decanted's network to expose the syndicate." },
       { ic: "cellar", name: "The Cellar", sub: "Recovered bottles", dev: "Your trophy cellar. Every legendary bottle you recover is racked here with its story, year, and the case that brought it home." },
-      { ic: "campaign", name: "Campaign", sub: "Story chapters", dev: "A narrative campaign in chapters — from your first cork to dismantling The Corkfather's empire, each chapter chains cases into a story." },
+      { ic: "campaign", name: "Case Files", sub: doneIds.length + " of " + (window.CASES ? window.CASES.length : 0) + " cases closed", board: true },
       { ic: "daily", name: "Daily Brief", sub: "New lead each day", dev: "A fresh procedurally-seeded lead every day — a quick case for steady XP, region progress, and daily streak rewards." },
       { ic: "ranks", name: "Career & Ranks", sub: S.rank + (S.nextRank ? " → " + S.nextRank : ""), dev: "The full W.I.N.E. promotion ladder, from Cadet to Master Detective — with the perks, clearance, and tools each rank unlocks." },
       { ic: "ach", name: "Achievements", sub: S.achievements.length + " of " + S.achievementDefs.length + " earned", dev: "Commendations and medals for clean arrests, full rosters, region sweeps and more — your wall of W.I.N.E. honors." }
@@ -243,13 +257,17 @@ body{font-family:var(--font-body);color:var(--ink);background:radial-gradient(12
           node = document.createElement("a");
           node.href = m.href; node.style.textDecoration = "none";
           node.className = "module live";
+        } else if (m.board) {
+          node = document.createElement("button");
+          node.className = "module live";
+          node.onclick = function () { openBoard(); };
         } else {
           node = document.createElement("button");
           node.className = "module dev";
           node.onclick = function () { openDev(m); };
         }
         node.innerHTML =
-          '<span class="m-status">' + (m.live ? "Open" : "Soon") + '</span>' +
+          '<span class="m-status">' + ((m.live || m.board) ? "Open" : "Soon") + '</span>' +
           '<span class="m-ic">' + ICONS[m.ic] + '</span>' +
           '<span class="m-name">' + m.name + '</span>' +
           '<span class="m-sub">' + m.sub + '</span>';
@@ -272,6 +290,35 @@ body{font-family:var(--font-body);color:var(--ink);background:radial-gradient(12
 
     function statCell(num, lab) {
       return '<div class="stat-cell"><div class="num">' + num + '</div><div class="lab">' + lab + '</div></div>';
+    }
+
+    function openBoard() {
+      var st = Career.state();
+      var done = st.casesDone || [];
+      var CS = window.CASES || [];
+      var rows = CS.map(function (c, i) {
+        var solved = done.indexOf(c.id) >= 0;
+        var unlocked = i === 0 || done.indexOf(CS[i - 1].id) >= 0;
+        var status = solved ? "✓ Closed" : (unlocked ? "Active" : "Locked");
+        var cls = "cf-row " + (solved ? "solved" : (unlocked ? "open" : "locked"));
+        var action = unlocked
+          ? '<a class="cf-go" href="case-file.html?case=' + c.id + '">' + (solved ? "Replay" : "Open File") + ' ↦</a>'
+          : '<span class="cf-lock">🔒 Solve “' + CS[i - 1].title + '” first</span>';
+        return '<div class="' + cls + '">' +
+            '<div class="cf-meta"><div class="cf-code">' + c.codename + ' · <span class="cf-stat">' + status + '</span></div>' +
+            '<div class="cf-title">' + (unlocked ? c.title : "Classified") + '</div>' +
+            '<div class="cf-reward">' + (unlocked ? c.reward : "————") + '</div></div>' +
+            '<div class="cf-act">' + action + '</div>' +
+          '</div>';
+      }).join("");
+      devwrap.innerHTML =
+        '<div class="devcard"><div class="d-ic">' + ICONS.campaign + '</div>' +
+        '<div class="d-tag">Campaign · ' + done.length + ' of ' + CS.length + ' closed</div>' +
+        '<div class="d-name">Case Files</div>' +
+        '<div class="cf-list">' + rows + '</div>' +
+        '<button class="d-close" id="d-close">Close</button></div>';
+      devwrap.classList.add("show");
+      document.getElementById("d-close").onclick = function () { devwrap.classList.remove("show"); };
     }
 
     function openDev(m) {
