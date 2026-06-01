@@ -561,5 +561,101 @@ window.CASES = [
       }
     ]
   }
+,
+  /* ========================= CASE 7 ========================= */
+  {
+    id: "loose-end",
+    codename: "Operation Last Call",
+    title: "The Loose End",
+    culprit: "malbec",                    // Bold Red · Muscle · A mess
+    reward: "◆ 7,500,000₣",
+    difficulty: { label: "Legend", startHeat: 58, destPenalty: 38, herringCost: 12, leadBudget: 2 },
+    bottle: {
+      name: "The 1912 “Goliath” Magnum",
+      desc: "A double-magnum of legendary old-vine red, big enough to anchor a boat. The Corkfather's enforcer grabbed it on his way out the door — the last score before he vanished.",
+      slotId: "case-bruiser-bottle"
+    },
+    scene: { region: "MENDOZA", place: "Bodega Grande vaults, Mendoza" },
+    brief:
+      "One loose end left, Chief. With the Corkfather behind bars, his enforcer Malbec Mike grabbed the Goliath magnum " +
+      "and ran — and a man that size doesn't tiptoe. He takes the big reds, takes them by force, and leaves a wreck behind " +
+      "every time. Run down all three on this one or you'll never tell him from the boss. Catch him, and the set is complete.",
+    legs: [
+      {
+        region: "MENDOZA", country: "Argentina", place: "Bodega Grande — Mendoza",
+        leads: [
+          { title: "The Bodega Owner", role: "Witness",
+            text: "“Subtle as a wrecking ball. Tore through the rack, grabbed the biggest, oldest red in the house, and was gone. Walked right past a wall of white without a glance. Reds — only ever the reds.”",
+            clue: { cat: "wineTrail", val: "Bold Red" } },
+          { title: "Tyre Marks", role: "Evidence",
+            text: "Deep ruts and a dropped ferry ticket: a freighter booked across the Atlantic for the first-growth country of Bordeaux.",
+            dest: true },
+          { title: "The Damage", role: "Flavor",
+            text: "Eleven racks down, a door off its frame, a forklift driven through a wall. Whoever this was didn't pick a lock — he made a new one." },
+          { title: "Café Regular", role: "Hearsay",
+            text: "A regular swears the thief headed for the airport, then the docks, then 'maybe Chile,' then orders another drink and forgets the question entirely." }
+        ],
+        dest: { clue: "A freighter across the Atlantic to the first-growth country of Bordeaux.",
+          correct: "BORDEAUX", options: ["BORDEAUX", "RIOJA", "NAPA"] }
+      },
+      {
+        region: "BORDEAUX", country: "France", place: "First-growth château — Bordeaux",
+        leads: [
+          { title: "Château Guard", role: "Witness",
+            text: "“Look at this place. He didn't cover his tracks — he left more of them. Broken glass, muddy boots, a barrel overturned in the courtyard. A calling card made of wreckage.”",
+            clue: { cat: "card", val: "A mess" } },
+          { title: "Customs Slip", role: "Evidence",
+            text: "A cargo slip jammed in the gate: one oversized, badly-packed crate manifested to the steep Syrah terraces of the northern Rhône.",
+            dest: true },
+          { title: "Bootprint", role: "Flavor",
+            text: "A single muddy bootprint, size enormous, pressed flat into a 1959 vintage ledger. The lab is mostly just impressed." },
+          { title: "Insurance Man", role: "Tip",
+            text: "An investigator insists it's an inside job and hands you a thick dossier. The dossier concerns a different château, in a different country, last year." }
+        ],
+        dest: { clue: "An oversized crate bound for the steep Syrah terraces of the northern Rhône.",
+          correct: "RHONE", options: ["RHONE", "TUSCANY", "DOURO"] }
+      },
+      {
+        region: "RHONE", country: "France", place: "Syrah cellars — Northern Rhône",
+        leads: [
+          { title: "The Cellarman", role: "Witness",
+            text: "“Two of them held the door, one carried the crate like it was empty. No tools, no tricks — just brute strength and no manners at all. You don't sneak past men like that. They are the plan.”",
+            clue: { cat: "method", val: "Muscle" } },
+          { title: "Dock Ledger", role: "Evidence",
+            text: "A harbourmaster's ledger, ink still wet: a cargo run booked for the old-vine Shiraz country of the Barossa.",
+            dest: true },
+          { title: "Bent Bars", role: "Flavor",
+            text: "The cellar's iron gate is peeled open like a tin lid. No cutting torch, no explosives — just hands." },
+          { title: "Anonymous Letter", role: "Tip",
+            text: "A typed letter names a famous strongman wrestler as the culprit, with photographs. The photographs are very clearly cut from a magazine." }
+        ],
+        dest: { clue: "A cargo run booked for the old-vine Shiraz country of the Barossa.",
+          correct: "BAROSSA", options: ["BAROSSA", "MARLBOROUGH", "STELLENBOSCH"] }
+      },
+      {
+        region: "BAROSSA", country: "Australia", place: "Outback roadhouse — Barossa",
+        leads: [
+          { title: "Roadhouse Owner", role: "Evidence",
+            text: "“Big fella, ate for three, paid in cash. Said he was 'going somewhere nobody looks' — the cold end of the world, Patagonia. Then left without paying for the pie.”",
+            dest: true },
+          { title: "Cleaned Out", role: "Flavor",
+            text: "He didn't steal here — just passed through. But the pantry's bare, the till's light, and the dog won't stop shaking." },
+          { title: "Local Tracker", role: "Hearsay",
+            text: "A tracker offers to find the man for a fee, points confidently at the horizon, and leads you in a complete circle back to the bar." }
+        ],
+        dest: { clue: "'Somewhere nobody looks' — the cold end of the world, Patagonia.",
+          correct: "PATAGONIA", options: ["PATAGONIA", "CAFAYATE", "MENDOZA"] }
+      },
+      {
+        region: "PATAGONIA", country: "Argentina", place: "Tin-roof shack — Patagonia",
+        final: true,
+        leads: [
+          { title: "The End of the Road", role: "Final Approach",
+            text: "A tin-roof shack at the bottom of the world, woodsmoke curling, the Goliath magnum open on an upturned crate beside a single chair. Nowhere left to run, and he knows it. This is the last of The Decanted. Issue the warrant and bring him in — the set is finally complete." }
+        ],
+        dest: null
+      }
+    ]
+  }
 
 ];
