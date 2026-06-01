@@ -42,6 +42,7 @@ window.CASES = [
     title: "The Vanishing Cuvée",
     culprit: "champagne",                 // ← the answer
     reward: "◆ 1,200,000₣",
+    difficulty: { label: "Rookie", startHeat: 100, destPenalty: 25, herringCost: 0 },
     bottle: {
       name: "The 1921 “Comet” Cuvée",
       desc: "The only surviving bottle from the legendary comet harvest. Priceless. Irreplaceable.",
@@ -117,6 +118,7 @@ window.CASES = [
     title: "The Soundless Vintage",
     culprit: "decanter",                  // Sparkling · Stealth · Nothing
     reward: "◆ 2,400,000₣",
+    difficulty: { label: "Field", startHeat: 88, destPenalty: 30, herringCost: 8 },
     bottle: {
       name: "The 1928 “Solstice” Blanc de Noirs",
       desc: "A magnum of midnight-dark sparkling, sealed since the year it was made. It disappeared from a vault three floors beneath W.I.N.E. itself.",
@@ -192,6 +194,7 @@ window.CASES = [
     title: "The Lost Cask",
     culprit: "jack",                      // Bold Red · Stealth · A mess
     reward: "◆ 3,100,000₣",
+    difficulty: { label: "Veteran", startHeat: 74, destPenalty: 34, herringCost: 10 },
     bottle: {
       name: "The 1847 “Conquistador” Tempranillo",
       desc: "A bottle dredged from a galleon wreck and worth more than the ship that carried it. Stolen from a guarded Rioja bodega before sunrise.",
