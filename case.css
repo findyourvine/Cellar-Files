@@ -30,7 +30,7 @@ body::before{
 /* ===== Phone frame ===== */
 .frame-wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;padding:18px;}
 .phone{
-  position:relative;width:min(440px,96vw);height:min(940px,94vh);
+  position:relative;width:min(440px,96vw);height:min(940px,94vh);height:min(940px,94dvh);
   background:linear-gradient(180deg,var(--cream),var(--paper) 16%,var(--paper) 84%,var(--paper-2));
   border-radius:34px;overflow:hidden;
   box-shadow:0 50px 110px -34px rgba(15,7,5,.85),0 0 0 9px #221513,0 0 0 11px rgba(216,188,115,.22);
@@ -175,7 +175,7 @@ body::before{
   background:rgba(20,10,8,.55);backdrop-filter:blur(2px);}
 .revealwrap.show{display:flex;animation:fade .2s;}
 .reveal{width:100%;background:linear-gradient(180deg,var(--cream),var(--paper));border-radius:20px 20px 0 0;
-  border-top:3px solid var(--accent);padding:22px 22px 26px;box-shadow:0 -20px 50px -20px rgba(0,0,0,.6);animation:up .28s cubic-bezier(.2,.9,.3,1);}
+  border-top:3px solid var(--accent);padding:22px 22px calc(26px + env(safe-area-inset-bottom));box-shadow:0 -20px 50px -20px rgba(0,0,0,.6);animation:up .28s cubic-bezier(.2,.9,.3,1);}
 @keyframes up{from{transform:translateY(100%);}to{transform:none;}}
 .reveal .r-role{font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep);}
 .reveal .r-title{font-family:var(--font-display);font-weight:600;text-transform:uppercase;font-size:22px;color:var(--burgundy);margin:3px 0 12px;line-height:1;}
@@ -186,7 +186,7 @@ body::before{
 .reveal .r-log .rl-v{font-family:var(--font-display);font-weight:600;text-transform:uppercase;font-size:17px;color:var(--ink);line-height:1;margin-top:2px;}
 
 /* ===== bottom action bar ===== */
-.actionbar{position:sticky;bottom:0;z-index:20;display:flex;gap:10px;padding:12px 18px 16px;
+.actionbar{position:sticky;bottom:0;z-index:20;display:flex;gap:10px;padding:12px 18px calc(16px + env(safe-area-inset-bottom));
   background:linear-gradient(180deg,rgba(243,232,207,0),var(--paper) 34%);}
 .actionbar .btn{flex:1;}
 
