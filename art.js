@@ -31,11 +31,11 @@ window.ART_MANIFEST = {};
     var slug = window.ART_SLUGS[c.id] || c.id;
     (c.expressions || []).forEach(function (e) {
       window.ART_MANIFEST[c.id + "__expr__" + e.key] =
-        window.ART_BASE + slug + "/expressions/" + slug + "-expr-" + e.key + ".png";
+        window.ART_BASE + slug + "/expressions/" + slug + "-expr-" + e.key + ".webp";
     });
     (c.poses || []).forEach(function (p) {
       window.ART_MANIFEST[c.id + "__pose__" + p.key] =
-        window.ART_BASE + slug + "/poses/" + slug + "-pose-" + p.key + ".png";
+        window.ART_BASE + slug + "/poses/" + slug + "-pose-" + p.key + ".webp";
     });
   });
   // shared props
