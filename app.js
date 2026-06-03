@@ -216,40 +216,9 @@
     pad.appendChild(buildCrimes(c));
     pad.appendChild(buildTravel(c));
 
-    /* expressions */
-    var exb = block("Expressions", "tap to set the file photo");
-    var exrow = document.createElement("div");
-    exrow.className = "exprs";
-    c.expressions.forEach(function (e, i) {
-      var item = document.createElement("div");
-      item.className = "expr" + (i === s.expr ? " active" : "");
-      var slot = Slots.create(exprId(i), e.label, "drop");
-      var lbl = document.createElement("span");
-      lbl.className = "elabel";
-      lbl.textContent = e.label;
-      item.appendChild(slot);
-      item.appendChild(lbl);
-      lbl.onclick = function (ev) {
-        ev.stopPropagation();
-        selectExpr(i);
-      };
-      // clicking the slot image area still opens file picker (handled by slot);
-      // but a single tap on a filled expr should also feature it:
-      slot.addEventListener("click", function () {
-        if (slot.classList.contains("has-img")) selectExpr(i);
-      });
-      function selectExpr(j) {
-        s.expr = j;
-        Slots.bind(header._photoSlot, exprId(j));
-        header._photoSlot.querySelector(".slot-cap").textContent = c.expressions[j].label.toUpperCase();
-        var cap = header.querySelector(".photo-cap");
-        if (cap) cap.textContent = c.expressions[j].label.toUpperCase();
-        exrow.querySelectorAll(".expr").forEach(function (x, k) { x.classList.toggle("active", k === j); });
-      }
-      exrow.appendChild(item);
-    });
-    exb.appendChild(exrow);
-    pad.appendChild(exb);
+    /* Expressions row hidden — the dossier shows only the featured FILE PHOTO
+       (set in the header from expressions[0]). The full set of expression
+       headshots is no longer surfaced in the UI. */
 
     pad.appendChild(footerEl(c));
     sheet.appendChild(spine());

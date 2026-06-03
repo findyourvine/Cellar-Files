@@ -12,6 +12,12 @@
     var found = id && window.CASES.filter(function (c) { return c.id === id; })[0];
     return found || window.CASES[0];
   })();
+  var DIFF = (function () {
+    var d = CASE.difficulty || {};
+    return { label: d.label || "Rookie", startHeat: d.startHeat || 100,
+             destPenalty: d.destPenalty || 25, herringCost: d.herringCost || 0,
+             leadBudget: d.leadBudget || 9 };
+  })();
   var screen = document.getElementById("screen");
   var reveal = document.getElementById("revealwrap");
   var confirmW = document.getElementById("confirmwrap");
@@ -26,7 +32,7 @@
   /* ---------- state ---------- */
   var S;
   function reset() {
-    S = { view: "briefing", leg: 0, trail: 100, known: {}, warrant: null,
+    S = { view: "briefing", leg: 0, trail: DIFF.startHeat, known: {}, warrant: null,
           leadsDone: {}, destFound: false, warrantFilings: 0 };
   }
   reset();
@@ -102,7 +108,7 @@
     h.innerHTML =
       '<div><div class="case-no">' + CASE.codename + '</div><div class="case-ttl">' + CASE.title + "</div></div>" +
       '<div class="grow"></div>' + w +
-      '<div class="trail ' + cls + '"><span class="tl-k">Trail Heat</span><div class="bar"><i style="width:' + S.trail + '%"></i></div></div>';
+      '<div class="trail ' + cls + '"><span class="tl-k">Trail Heat · ' + DIFF.label + '</span><div class="bar"><i style="width:' + S.trail + '%"></i></div></div>';
     return h;
   }
 
@@ -112,7 +118,7 @@
     var hero = el("div", "brief-hero");
     hero.innerHTML =
       '<span class="stamp new-stamp">New Case</span>' +
-      '<div class="kick"><span class="dot"></span> ' + CASE.codename + ' · Classified</div>' +
+      '<div class="kick"><span class="dot"></span> ' + CASE.codename + ' · ' + DIFF.label + ' Case</div>' +
       '<h1 class="huge">' + CASE.title + "</h1>";
     v.appendChild(hero);
 
@@ -148,7 +154,13 @@
     var btn = el("button", "btn gold");
     btn.textContent = "Accept the Case ›";
     btn.style.marginTop = "22px";
-    btn.onclick = function () { go("investigate"); };
+    btn.onclick = function () {
+      if (window.track) {
+        try { if (!sessionStorage.getItem("cf_game_started")) { sessionStorage.setItem("cf_game_started", "1"); track("game_started", { case_id: CASE.id }); } } catch (e) {}
+        if (CASE.id === window.CASES[0].id) track("case_1_started", { case_id: CASE.id });
+      }
+      go("investigate");
+    };
     pad.appendChild(btn);
 
     var backLink = el("a", "btn ghost");
@@ -172,8 +184,9 @@
       '<div class="kick"><span class="dot"></span> Stop ' + (S.leg + 1) + ' of ' + CASE.legs.length + ' · Investigating</div>' +
       '<div class="loc-name">' + leg.region + "</div>" +
       '<div class="loc-sub">' + leg.place + " · " + leg.country + "</div>" +
-      '<div class="minimap">' + minimapSVG() + pin(leg.region) +
-        '<img class="region-img" src="assets/maps/region-' + leg.region + '.png" alt="" onerror="this.remove()"/>' +
+      '<div class="minimap">' +
+        '<img class="world-map" src="assets/maps/world-map.png" alt="W.I.N.E. operations chart"/>' +
+        pin(leg.region) +
         (window.flagFor && window.flagFor(leg.country) ? '<img class="loc-flag" src="' + window.flagFor(leg.country) + '" alt=""/>' : "") +
       "</div>";
     v.appendChild(head);
@@ -202,16 +215,26 @@
       return;
     }
 
-    pad.insertAdjacentHTML("beforeend", '<div class="section-h">Leads <span class="hint">tap to investigate</span></div>');
+    var budget = DIFF.leadBudget || 99;
+    var nonDestOpened = 0;
+    leg.leads.forEach(function (L, i) { if (!L.dest && S.leadsDone[S.leg + ":" + i]) nonDestOpened++; });
+    var budgetLeft = Math.max(0, budget - nonDestOpened);
+    var restricted = budget < 9;
+    var hint = restricted
+      ? (budgetLeft + " investigation" + (budgetLeft === 1 ? "" : "s") + " left · the trail is free")
+      : "tap to investigate";
+    pad.insertAdjacentHTML("beforeend", '<div class="section-h">Leads <span class="hint">' + hint + '</span></div>');
     leg.leads.forEach(function (L, i) {
       var key = S.leg + ":" + i;
       var done = !!S.leadsDone[key];
-      var b = el("button", "lead" + (done ? " done" : ""));
+      var locked = !done && !L.dest && budgetLeft <= 0;
+      var b = el("button", "lead" + (done ? " done" : "") + (locked ? " spent" : ""));
       b.innerHTML =
         '<div class="l-ic">' + leadIcon(L.role) + "</div>" +
-        '<div><div class="l-role">' + (done ? "Logged" : L.role) + '</div><div class="l-title">' + L.title + "</div></div>" +
-        '<span class="l-arrow">' + (done ? "✓" : "›") + "</span>";
-      b.onclick = function () { openLead(L, key); };
+        '<div><div class="l-role">' + (done ? "Logged" : (locked ? "Out of time" : L.role)) + '</div><div class="l-title">' + L.title + "</div></div>" +
+        '<span class="l-arrow">' + (done ? "✓" : (locked ? "✕" : "›")) + "</span>";
+      if (locked) { b.disabled = true; }
+      else { b.onclick = function () { openLead(L, key); }; }
       pad.appendChild(b);
     });
     v.appendChild(pad);
@@ -230,11 +253,21 @@
   }
 
   function openLead(L, key) {
+    // budget guard: once investigations are spent, only the destination lead stays open
+    if (!L.dest && !S.leadsDone[key]) {
+      var lg = CASE.legs[S.leg], opened = 0;
+      lg.leads.forEach(function (LL, i) { if (!LL.dest && S.leadsDone[S.leg + ":" + i]) opened++; });
+      if (opened >= (DIFF.leadBudget || 99)) { return; }
+    }
     var firstTime = !S.leadsDone[key];
     S.leadsDone[key] = true;
     var logHtml = "";
+    var deadend = !L.clue && !L.dest;
+    var herringHit = deadend && firstTime && DIFF.herringCost > 0;
+    if (herringHit) { S.trail = Math.max(0, S.trail - DIFF.herringCost); }
     if (L.clue && firstTime) {
       S.known[L.clue.cat] = L.clue.val;
+      if (window.track) track("clue_found", { case_id: CASE.id, leg: S.leg, category: L.clue.cat });
     }
     if (L.clue) {
       logHtml =
@@ -247,6 +280,10 @@
       logHtml =
         '<div class="r-log"><span class="rl-stamp"><span class="stamp">Trail</span></span>' +
         '<div><div class="rl-k">Destination clue secured</div><div class="rl-v" style="font-size:13px;font-family:var(--font-body);font-weight:400;text-transform:none;font-style:italic">Open “Follow the Trail”.</div></div></div>';
+    } else if (deadend && DIFF.herringCost > 0) {
+      logHtml =
+        '<div class="r-log"><span class="rl-stamp"><span class="stamp">Dead End</span></span>' +
+        '<div><div class="rl-k">Chased a rumour</div><div class="rl-v" style="font-size:13px;font-family:var(--font-body);font-weight:400;text-transform:none;font-style:italic">No new evidence' + (herringHit ? " · −" + DIFF.herringCost + " heat" : "") + '.</div></div></div>';
     }
     reveal.innerHTML =
       '<div class="reveal"><div class="r-role">' + L.role + '</div><div class="r-title">' + L.title + "</div>" +
@@ -255,9 +292,12 @@
     reveal.classList.add("show");
     document.getElementById("reveal-close").onclick = function () {
       reveal.classList.remove("show");
+      if (herringHit && S.trail <= 0) { S.lossReason = "cold"; go("result"); return; }
       if (L.clue && firstTime) {
         var left = candidates().length;
         toast(left > 1 ? "Tracker narrowed to " + left + " suspects" : "Only one suspect remains!");
+      } else if (herringHit) {
+        toast("Chased a rumour — nothing useful. (−" + DIFF.herringCost + " heat)");
       }
       render();
     };
@@ -304,9 +344,9 @@
 
   function chooseDest(rk, leg) {
     if (rk !== leg.dest.correct) {
-      S.trail = Math.max(0, S.trail - 25);
+      S.trail = Math.max(0, S.trail - DIFF.destPenalty);
       if (S.trail <= 0) { S.lossReason = "cold"; go("result"); return; }
-      toast("Cold trail — she was never in " + rk + ". (−25 heat)");
+      toast("Cold trail — never in " + rk + ". (−" + DIFF.destPenalty + " heat)");
       render();
       return;
     }
@@ -418,11 +458,15 @@
     if (!S.win) S.lossReason = "wrong";
     if (S.win && window.Career && !S.recorded) {
       S.recorded = true;
+      if (window.track) {
+        track("case_completed", { case_id: CASE.id });
+        if (window.CASES.indexOf(CASE) === window.CASES.length - 1) track("ending_reached", { case_id: CASE.id });
+      }
       S.award = Career.recordWin({
         caseId: CASE.id, caseTitle: CASE.title, culpritId: CASE.culprit,
         regions: CASE.legs.map(function (l) { return l.region; }),
         bottle: CASE.bottle,
-        cleanWarrant: (S.warrantFilings || 0) <= 1 && S.trail === 100
+        cleanWarrant: (S.warrantFilings || 0) <= 1 && S.trail === DIFF.startHeat
       });
       if (S.award.newRegions && S.award.newRegions.length) {
         try { localStorage.setItem("cellarfiles:newstamps", JSON.stringify(S.award.newRegions)); } catch (e) {}
@@ -485,7 +529,7 @@
     btn.style.marginTop = "8px";
     if (S.win && nextCase) {
       btn.textContent = "Next Case: " + nextCase.title + " ↦";
-      btn.onclick = function () { location.href = "case-file.html?case=" + nextCase.id; };
+      btn.onclick = function () { if (window.track) track("play_again", { from_case: CASE.id, next_case: nextCase.id }); location.href = "case-file.html?case=" + nextCase.id; };
     } else if (S.win) {
       btn.textContent = "Case Files Closed — Return to HQ ✦";
       btn.onclick = function () { location.href = "index.html"; };
