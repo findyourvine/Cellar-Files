@@ -154,7 +154,13 @@
     var btn = el("button", "btn gold");
     btn.textContent = "Accept the Case ›";
     btn.style.marginTop = "22px";
-    btn.onclick = function () { go("investigate"); };
+    btn.onclick = function () {
+      if (window.track) {
+        try { if (!sessionStorage.getItem("cf_game_started")) { sessionStorage.setItem("cf_game_started", "1"); track("game_started", { case_id: CASE.id }); } } catch (e) {}
+        if (CASE.id === window.CASES[0].id) track("case_1_started", { case_id: CASE.id });
+      }
+      go("investigate");
+    };
     pad.appendChild(btn);
 
     var backLink = el("a", "btn ghost");
@@ -261,6 +267,7 @@
     if (herringHit) { S.trail = Math.max(0, S.trail - DIFF.herringCost); }
     if (L.clue && firstTime) {
       S.known[L.clue.cat] = L.clue.val;
+      if (window.track) track("clue_found", { case_id: CASE.id, leg: S.leg, category: L.clue.cat });
     }
     if (L.clue) {
       logHtml =
@@ -451,6 +458,10 @@
     if (!S.win) S.lossReason = "wrong";
     if (S.win && window.Career && !S.recorded) {
       S.recorded = true;
+      if (window.track) {
+        track("case_completed", { case_id: CASE.id });
+        if (window.CASES.indexOf(CASE) === window.CASES.length - 1) track("ending_reached", { case_id: CASE.id });
+      }
       S.award = Career.recordWin({
         caseId: CASE.id, caseTitle: CASE.title, culpritId: CASE.culprit,
         regions: CASE.legs.map(function (l) { return l.region; }),
@@ -518,7 +529,7 @@
     btn.style.marginTop = "8px";
     if (S.win && nextCase) {
       btn.textContent = "Next Case: " + nextCase.title + " ↦";
-      btn.onclick = function () { location.href = "case-file.html?case=" + nextCase.id; };
+      btn.onclick = function () { if (window.track) track("play_again", { from_case: CASE.id, next_case: nextCase.id }); location.href = "case-file.html?case=" + nextCase.id; };
     } else if (S.win) {
       btn.textContent = "Case Files Closed — Return to HQ ✦";
       btn.onclick = function () { location.href = "index.html"; };
