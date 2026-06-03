@@ -3,3 +3,8 @@ gfpgan/
 results/
 face_test/
 gfpgan/
+
+art-source/sprite-sheets/*_upscayl*
+*.pb
+0.03
+expr[1]
