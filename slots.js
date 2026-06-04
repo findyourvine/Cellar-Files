@@ -10,6 +10,7 @@ window.Slots = (function () {
   var data = {};                 // id -> dataURL | null
   var bindings = new Map();      // id -> Set(element)
   var fileInput = null;
+  var editable = false;          // display-only by default: tapping a slot does nothing
 
   function get(id) {
     if (!(id in data)) {
@@ -103,6 +104,7 @@ window.Slots = (function () {
   function wire(el) {
     if (el.__wired) return;
     el.__wired = true;
+    if (!editable) return; // display-only: tapping an image does nothing
 
     el.addEventListener("dragover", function (e) {
       e.preventDefault();
@@ -132,14 +134,15 @@ window.Slots = (function () {
     el.innerHTML =
       '<div class="slot-img"></div>' +
       '<div class="slot-ph">' +
-        '<span class="drop-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v10"/><path d="M7 11l5 5 5-5"/><path d="M5 19h14"/></svg></span>' +
+        (editable ? '<span class="drop-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v10"/><path d="M7 11l5 5 5-5"/><path d="M5 19h14"/></svg></span>' : "") +
         '<span class="slot-cap">' + (caption || "") + "</span>" +
-        (hint ? '<span class="slot-hint">' + hint + "</span>" : "") +
+        (hint && editable ? '<span class="slot-hint">' + hint + "</span>" : "") +
       "</div>" +
-      '<button class="slot-clear" title="Remove image">&times;</button>';
+      (editable ? '<button class="slot-clear" title="Remove image">&times;</button>' : "");
     bind(el, id);
     return el;
   }
 
-  return { get: get, set: set, clear: clear, bind: bind, create: create, render: render };
+  return { get: get, set: set, clear: clear, bind: bind, create: create, render: render,
+           setEditable: function (b) { editable = !!b; } };
 })();
